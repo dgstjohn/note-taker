@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const notes = require('./db/db.json')
+const notes = require('./db/db.json');
 const PORT = 3001; // probably need different port number for Heroku
 
 // set up HTML routes -- res.send
@@ -8,12 +8,12 @@ const PORT = 3001; // probably need different port number for Heroku
 // GET * should return the index.html file
 
 app.get('/', (req, res) => {
-    res.send('index.html');
+    return '../public/index.html';
 })
 // GET /notes should return the notes.html file
 
 app.get('/notes', (req, res) => {
-    res.send('notes.html'); // will need path at Heroku site
+    return '../public/notes.html'; // will need path at Heroku site
 })
 
 // set up API routes -- res.json
@@ -23,6 +23,7 @@ app.get('/api/notes', (req, res) => {
     let results = notes;
     console.log(req.query);
     res.json(results);
+    console.log(results);
 });
 
 // POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client

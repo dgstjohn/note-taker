@@ -1,19 +1,20 @@
 const express = require('express');
+const path = require('path');
+const uniqid = require('uniqid');
+// const index = require('./public/assets/js/index.js');
 const app = express();
 const notes = require('./db/db.json');
-const PORT = 3001; // probably need different port number for Heroku
+const PORT = 3001;
 
-// set up HTML routes -- res.send
-
-// GET * should return the index.html file
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    return '../public/index.html';
+    res.sendFile(path.join(__dirname,'./public/index.html'));
 })
-// GET /notes should return the notes.html file
-
 app.get('/notes', (req, res) => {
-    return '../public/notes.html'; // will need path at Heroku site
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 // set up API routes -- res.json
@@ -30,10 +31,11 @@ app.get('/api/notes', (req, res) => {
 // each note will need a unique ID
 
 app.post('/api/notes', (req, res) => {
-    const newNote = req.body;
-    console.log(newNote);
-    notes.push(newNote);
-    res.json(newNote);
+    const addNote = req.body(activeNote);
+    addNote.id = uniqid()
+    console.log(addNote);
+    notes.push(activeNote);
+    res.json(notes);
 })
 
 

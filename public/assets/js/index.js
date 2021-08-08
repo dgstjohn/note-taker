@@ -71,6 +71,8 @@ const handleNoteSave = () => {
         title: noteTitle.value,
         text: noteText.value,
     };
+    const noteId = uniqid();
+    newNote.id = noteId;
     saveNote(newNote).then(() => {
         getAndRenderNotes();
         renderActiveNote();

@@ -11,6 +11,7 @@ const app = express();
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // Sets up path to the CSS and JS
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -41,18 +42,21 @@ app.post('/api/notes', (req, res) => {
     fs.readFile('db/db.json', 'UTF-8', (err, text) => {
         let currentNotes = JSON.parse(text);
         // create the new note
-        let newNote = {
+        let note = {
             title: req.body.title,
             text: req.body.text,
             id: uniqid()
         };
         // add the new note to db.json
-        currentNotes.push(newNote);
+        currentNotes.push(note);
         // overwrite old db.json with new version
         fs.writeFile('db/db.json', JSON.stringify(currentNotes), (err) => {
             if (err) throw err;
         })
+        // send the file through the POST route
+        res.json(currentNotes);
     })
+
 })
 
 

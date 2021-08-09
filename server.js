@@ -45,7 +45,7 @@ app.post('/api/notes', (req, res) => {
             title: req.body.title,
             text: req.body.text,
             id: uniqid()
-        }
+        };
         // add the new note to db.json
         currentNotes.push(newNote);
         // overwrite old db.json with new version
@@ -53,7 +53,6 @@ app.post('/api/notes', (req, res) => {
             if (err) throw err;
         })
     })
-
 })
 
 
